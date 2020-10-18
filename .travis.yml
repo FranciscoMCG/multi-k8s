@@ -11,10 +11,12 @@ script:
 
 after_success:
   - docker build -t franciscomcg/multi-client ./client
-  - docker built -t franciscomcg/multi-nginx ./nginx
-  - docker built -t franciscomcg/multi-server ./server
-  - docker built -t franciscomcg/multi-worker ./worker
+  - docker build -t franciscomcg/multi-nginx ./nginx
+  - docker build -t franciscomcg/multi-server ./server
+  - docker build -t franciscomcg/multi-worker ./worker
+
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
   - docker push franciscomcg/multi-client
   - docker push franciscomcg/multi-nginx
   - docker push franciscomcg/multi-server
