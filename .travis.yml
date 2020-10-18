@@ -1,0 +1,21 @@
+language: generic
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t franciscomcg/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true franciscomcg/react-test npm test
+
+after_success:
+  - docker build -t franciscomcg/multi-client ./client
+  - docker built -t franciscomcg/multi-nginx ./nginx
+  - docker built -t franciscomcg/multi-server ./server
+  - docker built -t franciscomcg/multi-worker ./worker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push franciscomcg/multi-client
+  - docker push franciscomcg/multi-nginx
+  - docker push franciscomcg/multi-server
+  - docker push franciscomcg/multi-worker
