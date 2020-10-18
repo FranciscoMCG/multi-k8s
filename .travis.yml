@@ -10,10 +10,10 @@ script:
   - docker run -e CI=true franciscomcg/react-test npm test
 
 after_success:
-  - docker build -it franciscomcg/multi-client ./client
-  - docker built -it franciscomcg/multi-nginx ./nginx
-  - docker built -it franciscomcg/multi-server ./server
-  - docker built -it franciscomcg/multi-worker ./worker
+  - docker build -t franciscomcg/multi-client ./client
+  - docker built -t franciscomcg/multi-nginx ./nginx
+  - docker built -t franciscomcg/multi-server ./server
+  - docker built -t franciscomcg/multi-worker ./worker
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   - docker push franciscomcg/multi-client
   - docker push franciscomcg/multi-nginx
